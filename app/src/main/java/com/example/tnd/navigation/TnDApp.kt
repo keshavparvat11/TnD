@@ -10,6 +10,7 @@ import com.example.tnd.screen.Dare.DareScreen
 import com.example.tnd.screen.Dare.ShowDare
 import com.example.tnd.screen.FeedbackScreen
 import com.example.tnd.screen.HomeScreen
+import com.example.tnd.screen.PlayerInputScreen
 import com.example.tnd.screen.SpinBottle.SpinBottleScreen
 import com.example.tnd.screen.Truth.ShowTruth
 import com.example.tnd.screen.Truth.TruthScreen
@@ -23,19 +24,33 @@ fun TnDApp() {
         composable("truth") { TruthScreen(navController) }
         composable("dare") { DareScreen(navController) }
         composable("Feedback") { FeedbackScreen(navController) }
-        composable("spin") { SpinBottleScreen(navController) }
-        composable(route = "ShowDare/{topic}",
-            arguments = listOf(navArgument("topic"){ type = NavType.StringType })){
-            backSatckEntry ->
-            val topic = backSatckEntry.arguments?.getString("topic") ?: "Unknown"
-            ShowDare(navController,topic)
+        composable("spin") { PlayerInputScreen(navController) }
+
+        // --- Dares ---
+        composable(
+            route = "ShowDare/{topic}",
+            arguments = listOf(navArgument("topic") { type = NavType.StringType })
+        ) { backStackEntry ->
+            val topic = backStackEntry.arguments?.getString("topic") ?: "Unknown"
+            ShowDare(navController, topic)
         }
 
-        composable(route = "ShowTruth/{topic}",
-            arguments = listOf(navArgument("topic"){ type = NavType.StringType })){
-                backSatckEntry ->
-            val topic = backSatckEntry.arguments?.getString("topic") ?: "Unknown"
-            ShowTruth(navController,topic)
+        // --- Spin Bottle / Game ---
+        composable(
+            route = "GameScreen/{numberOfPlayers}",
+            arguments = listOf(navArgument("numberOfPlayers") { type = NavType.IntType })
+        ) { backStackEntry ->
+            val numberOfPlayers = backStackEntry.arguments?.getInt("numberOfPlayers") ?: 2
+            SpinBottleScreen(navController, numberOfPlayers)
+        }
+
+        // --- Truth ---
+        composable(
+            route = "ShowTruth/{topic}",
+            arguments = listOf(navArgument("topic") { type = NavType.StringType })
+        ) { backStackEntry ->
+            val topic = backStackEntry.arguments?.getString("topic") ?: "Unknown"
+            ShowTruth(navController, topic)
         }
     }
 }

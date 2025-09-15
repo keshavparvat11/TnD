@@ -96,8 +96,8 @@ import kotlin.random.Random
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SpinBottleScreen(navController: NavHostController) {
-    var numberOfPlayers by remember { mutableStateOf("") }
+fun SpinBottleScreen(navController: NavHostController, numberOfPlayers: Int) {
+    var numberOfPlayers by remember { mutableStateOf(numberOfPlayers) }
     var gameStarted by remember { mutableStateOf(false) }
     var selectedPlayer by remember { mutableStateOf(-1) }
     var bottleSet by remember { mutableStateOf(false) }
@@ -142,209 +142,20 @@ fun SpinBottleScreen(navController: NavHostController) {
                     )
                 )
         ) {
-            if (!gameStarted) {
-                PlayerInputScreen(
-                    numberOfPlayers = numberOfPlayers,
-                    onNumberOfPlayersChange = { numberOfPlayers = it },
-                    onStartGame = {
-                        if (numberOfPlayers.toIntOrNull() != null && numberOfPlayers.toInt() > 1) {
-                            gameStarted = true
-                        }
-                    }
-                )
-            } else {
+
                 GameScreen(
                     navController = navController,
                     AngleOfBottleSet = bottleSet,
                     playerCount = numberOfPlayers.toInt(),
                     selectedPlayer = selectedPlayer,
                     onSelectedPlayerChange = { selectedPlayer = it },
-                    onResetGame = {
-                        gameStarted = false
-                        numberOfPlayers = ""
-                        selectedPlayer = -1
-                    }
+
                 )
-            }
+
         }
     }
 }
 
-@Composable
-fun PlayerInputScreen(
-    numberOfPlayers: String,
-    onNumberOfPlayersChange: (String) -> Unit,
-    onStartGame: () -> Unit
-) {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(24.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
-    ) {
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = Modifier.padding(bottom = 32.dp)
-        ) {
-            Box(
-                modifier = Modifier
-                    .size(80.dp)
-                    .clip(RoundedCornerShape(16.dp))
-                    .background(
-                        brush = Brush.radialGradient(
-                            colors = listOf(
-                                Color(0xFF6A5AE0),
-                                Color(0xFF8B7BEB)
-                            )
-                        )
-                    ),
-                contentAlignment = Alignment.Center
-            ) {
-                Icon(
-                    imageVector = Icons.Default.Star,
-                    contentDescription = "Game Icon",
-                    tint = Color.White,
-                    modifier = Modifier.size(40.dp)
-                )
-            }
-
-            Spacer(modifier = Modifier.height(16.dp))
-
-            Text(
-                text = "Spin the Bottle",
-                style = MaterialTheme.typography.headlineSmall.copy(
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 28.sp
-                ),
-                color = Color(0xFF333333),
-                textAlign = TextAlign.Center
-            )
-
-            Text(
-                text = "Enter the number of players",
-                style = MaterialTheme.typography.bodyMedium,
-                color = Color(0xFF666666),
-                textAlign = TextAlign.Center,
-                modifier = Modifier.padding(top = 8.dp)
-            )
-        }
-
-        Card(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 32.dp)
-                .shadow(8.dp, RoundedCornerShape(20.dp)),
-            shape = RoundedCornerShape(20.dp),
-            colors = CardDefaults.cardColors(containerColor = Color.White)
-        ) {
-            Column(
-                modifier = Modifier.padding(24.dp),
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                Text(
-                    text = "Number of Players",
-                    style = MaterialTheme.typography.bodyLarge.copy(
-                        fontWeight = FontWeight.SemiBold
-                    ),
-                    color = Color(0xFF444444),
-                    modifier = Modifier.padding(bottom = 16.dp)
-                )
-
-                var isFocused by remember { mutableStateOf(false) }
-
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(60.dp)
-                        .clip(RoundedCornerShape(12.dp))
-                        .background(
-                            if (isFocused) Color(0xFFF0F0F0) else Color(0xFFF8F8F8)
-                        )
-                        .padding(16.dp)
-                ) {
-                    BasicTextField(
-                        value = numberOfPlayers,
-                        onValueChange = {
-                            if (it.isEmpty() || it.toIntOrNull() != null) {
-                                if (it.isEmpty() || (it.toInt() in 2..12)) {
-                                    onNumberOfPlayersChange(it)
-                                }
-                            }
-                        },
-                        textStyle = TextStyle(
-                            color = Color(0xFF333333),
-                            fontSize = 20.sp,
-                            fontWeight = FontWeight.Medium,
-                            textAlign = TextAlign.Center
-                        ),
-                        cursorBrush = SolidColor(Color(0xFF6A5AE0)),
-                        keyboardOptions = KeyboardOptions(
-                            keyboardType = KeyboardType.Number
-                        ),
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .onFocusChanged { isFocused = it.isFocused },
-                        decorationBox = { innerTextField ->
-                            if (numberOfPlayers.isEmpty()) {
-                                Text(
-                                    text = "2-12 players",
-                                    color = Color(0xFF999999),
-                                    fontSize = 20.sp,
-                                    textAlign = TextAlign.Center,
-                                    modifier = Modifier.fillMaxWidth()
-                                )
-                            }
-                            innerTextField()
-                        }
-                    )
-                }
-
-                Spacer(modifier = Modifier.height(24.dp))
-
-                Button(
-                    onClick = onStartGame,
-                    enabled = numberOfPlayers.toIntOrNull() != null && numberOfPlayers.toInt() > 1,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(56.dp),
-                    shape = RoundedCornerShape(12.dp),
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = Color(0xFF6A5AE0),
-                        disabledContainerColor = Color(0xFFCCCCCC)
-                    )
-                ) {
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        Icon(
-                            imageVector = Icons.Default.PlayArrow,
-                            contentDescription = "Start",
-                            tint = Color.White,
-                            modifier = Modifier.size(20.dp)
-                        )
-                        Spacer(modifier = Modifier.width(8.dp))
-                        Text(
-                            text = "Start Game",
-                            color = Color.White,
-                            fontWeight = FontWeight.Bold,
-                            fontSize = 18.sp
-                        )
-                    }
-                }
-            }
-        }
-
-        Text(
-            text = "The bottle will spin and randomly select a player",
-            style = MaterialTheme.typography.bodySmall,
-            color = Color(0xFF888888),
-            textAlign = TextAlign.Center,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 32.dp)
-                .padding(top = 24.dp)
-        )
-    }
-}
 
 @Composable
 fun GameScreen(
@@ -353,7 +164,7 @@ fun GameScreen(
     playerCount: Int,
     selectedPlayer: Int,
     onSelectedPlayerChange: (Int) -> Unit,
-    onResetGame: () -> Unit
+    //onResetGame: () -> Unit
 ) {
     val rotation = remember { Animatable(0f) }
     var isSpinning by remember { mutableStateOf(false) }
