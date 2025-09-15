@@ -72,7 +72,7 @@ fun HomeScreen(navController: NavController) {
             ActionCard(
                 title = "Spin",
                 background = spinColor,
-                onClick = { /* navController.navigate("spin") */ },
+                onClick = { navController.navigate("spin") },
                 icon = Icons.Default.Casino,
                 modifier = Modifier
                     .fillMaxWidth(0.7f)

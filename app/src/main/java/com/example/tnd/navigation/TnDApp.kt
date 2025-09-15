@@ -1,11 +1,17 @@
 package com.example.tnd.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.example.tnd.screen.Dare.DareScreen
+import com.example.tnd.screen.Dare.ShowDare
+import com.example.tnd.screen.FeedbackScreen
 import com.example.tnd.screen.HomeScreen
+import com.example.tnd.screen.SpinBottle.SpinBottleScreen
+import com.example.tnd.screen.Truth.ShowTruth
 import com.example.tnd.screen.Truth.TruthScreen
 
 @Composable
@@ -14,7 +20,22 @@ fun TnDApp() {
 
     NavHost(navController, startDestination = "home") {
         composable("home") { HomeScreen(navController) }
-        composable("truth") { TruthScreen() }
-        composable("dare") { DareScreen() }
+        composable("truth") { TruthScreen(navController) }
+        composable("dare") { DareScreen(navController) }
+        composable("Feedback") { FeedbackScreen(navController) }
+        composable("spin") { SpinBottleScreen(navController) }
+        composable(route = "ShowDare/{topic}",
+            arguments = listOf(navArgument("topic"){ type = NavType.StringType })){
+            backSatckEntry ->
+            val topic = backSatckEntry.arguments?.getString("topic") ?: "Unknown"
+            ShowDare(navController,topic)
+        }
+
+        composable(route = "ShowTruth/{topic}",
+            arguments = listOf(navArgument("topic"){ type = NavType.StringType })){
+                backSatckEntry ->
+            val topic = backSatckEntry.arguments?.getString("topic") ?: "Unknown"
+            ShowTruth(navController,topic)
+        }
     }
 }
