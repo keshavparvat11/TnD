@@ -1,96 +1,113 @@
-Truth or Dare App
-📱 Project Overview
 
-Truth or Dare is a modern Android mobile application built with Jetpack Compose that delivers an interactive party game experience.
-It combines Truth questions, Dare challenges, and a realistic Spin the Bottle mini-game — all wrapped in a clean, responsive Material Design 3 interface.
+# 🎉 TnD – Truth or Dare Game
 
-🎯 Key Features
+**TnD** is an Android app built with **Kotlin + Jetpack Compose** that brings the classic **Truth or Dare** experience to life.  
+It includes **Truth questions**, **Dare challenges**, and a fun **Spin the Bottle** mini-game — all with a sleek Material 3 UI.
 
-Truth Mode
+---
 
-15+ categories: casual, romantic, spicy, embarrassing, family-friendly, and more.
+## ✨ Features
 
-Dare Mode
+- 🗨️ **Truth Mode**  
+  - 15+ categories: funny, deep, spicy, embarrassing, etc.
+- 🎯 **Dare Mode**  
+  - Creative, social, and adventurous challenges.
+- 🍾 **Spin the Bottle**  
+  - Realistic spinning animation for 2–12 players.
+- ⭐ **Feedback Screen**  
+  - Rate the app and leave suggestions.
+- 🎨 **Modern UI**  
+  - Built with Material Design 3 and smooth Compose animations.
 
-Fun, creative challenges with varying difficulty.
+---
 
-Spin the Bottle
+## 🛠️ Tech Stack
 
-Physics-based bottle animation, custom glass graphics, and accurate player selection (2–12 players).
+- **Kotlin**  
+- **Jetpack Compose** (UI)  
+- **Material Design 3**  
+- **Navigation-Compose**  
+- **MVVM Architecture** with State Hoisting  
+- **Compose Animation APIs**
 
-Feedback System
+---
 
-Built-in star rating & comments.
+## 📸 Screenshots
 
-Modern UI
+> *(Add screenshots/GIFs of your app here)*
 
-Smooth animations, dynamic colors, and consistent Material 3 theming.
+| Home Screen | Truth Categories | Dare Screen |
+|-------------|-----------------|-------------|
+| ![](screenshots/home.png) | ![](screenshots/truth.png) | ![](screenshots/dare.png) |
 
-🛠️ Technical Stack
-Layer	Tools & Libraries
-Language	Kotlin
-UI	Jetpack Compose, Material 3, Compose Animation
-Navigation	Navigation-Compose
-Architecture	MVVM, State Hoisting, Unidirectional Data Flow
-📂 Project Structure
-com/example/tnd/
-├── screen/
-│   ├── Truth/            # Truth questions & topics
-│   ├── Dare/             # Dare challenges
-│   ├── SpinBottle/       # Player input & spinning logic
-│   ├── Feedback/         # Rating & feedback
-│   └── Developer/        # About / contact info
-├── model/
-│   └── GameModels.kt     # Data classes (TruthTopic, GameState, etc.)
-├── navigation/
-│   └── AppNavigation.kt  # NavHost & routes
-└── theme/
-    └── AppTheme.kt       # Colors, typography, shapes
+| Spin the Bottle | Feedback |
+|-----------------|-----------|
+| ![](screenshots/spin.png) | ![](screenshots/feedback.png) |
 
-🚀 Getting Started
-Prerequisites
+---
 
-Android Studio Giraffe or newer
+## 🚀 Getting Started
 
-Kotlin 1.8+
+Follow these steps to set up the project locally:
 
-Android SDK 21+
+1. **Clone the repo**
+   ```bash
+   git clone https://github.com/keshavparvat11/TnD.git
+   cd TnD
 
-Build & Run
+2. **Open in Android Studio**
 
-Clone the repository:
+   * Use **Android Studio Giraffe (or newer)**.
+   * Make sure you have **Android SDK 21+** installed.
 
-git clone https://github.com/keshavparvat11/TnD.git
+3. **Run the project**
+
+   * Connect a device/emulator.
+   * Click **Run ▶** in Android Studio.
+
+---
+
+## 📂 Project Structure
+
+```
+📦 com.example.tnd
+ ┣ 📂 screen
+ ┃ ┣ 📂 Truth          # Truth questions & categories
+ ┃ ┣ 📂 Dare           # Dare challenges
+ ┃ ┣ 📂 SpinBottle     # Bottle game & player input
+ ┃ ┣ 📂 Feedback       # Rating & comments
+ ┃ ┗ 📂 Developer      # About the author
+ ┣ 📂 model            # Data models (TruthData, DareData, etc.)
+ ┣ 📂 navigation       # App navigation (TnDApp)
+ ┣ 📂 theme            # AppTheme & colors
+ ┗ MainActivity.kt     # Entry point
+```
+
+---
+
+## 🔮 Roadmap
+
+* 🌐 Multi-language support
+* ☁️ Cloud sync for questions
+* 📝 Custom truth/dare creation
+* 🎵 Sound effects & music
+* 🌙 Dark theme
+
+---
 
 
-Open in Android Studio.
+## 👨‍💻 Author
 
-Sync Gradle.
+**Keshav Parvat**
+[GitHub](https://github.com/keshavparvat11) · [LinkedIn](https://www.linkedin.com/in/keshavparvat/)
 
-Run on an emulator or physical device.
+> *“Truth or Dare, reimagined for Android.”*
 
-📈 Future Enhancements
 
-🌐 Multi-language support
 
-☁️ Cloud sync / online question packs
+This version is now clean, properly formatted, and ready to display well on GitHub.
 
-🎨 Custom question & dare creation
+If you want, I can also create a **more visual, GitHub-ready README with badges, colors, and styled sections** like top trending repositories have. That would make it look professional.  
 
-🎵 Sound effects and music
-
-🌙 Dark mode
-
-📝 Conclusion
-
-This app demonstrates:
-
-Modern Android UI development with Jetpack Compose
-
-Clean architecture and efficient state management
-
-Custom drawing (Spin Bottle) and animations
-
-A fun, production-ready example of Compose best practices.
-
-Perfect for parties, icebreakers, or showcasing your Android development skills!
+Do you want me to do that next?
+```
