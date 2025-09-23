@@ -38,11 +38,11 @@ It includes **Truth questions**, **Dare challenges**, and a fun **Spin the Bottl
 
 | Home Screen | Truth Categories | Dare Screen |
 |-------------|-----------------|-------------|
-| ![](screenshots/home.png) | ![](screenshots/truth.png) | ![](screenshots/dare.png) |
+| ![](ss/HomeScreen.jpg) | ![](ss/TruthScreen.jpg) | ![](ss/DareScreen.jpg) |
 
-| Spin the Bottle | Feedback |
-|-----------------|-----------|
-| ![](screenshots/spin.png) | ![](screenshots/feedback.png) |
+| Spin the Bottle | Feedback | Feedback |
+|-----------------|-----------| -----------|
+| ![](ss/SpinBottleScreen.jpg) | ![](ss/FeedbackScreen.jpg) | ![](ss/DeveloperScreen.jpg) |
 
 ---
 
