@@ -164,20 +164,18 @@ fun GameScreen(
     playerCount: Int,
     selectedPlayer: Int,
     onSelectedPlayerChange: (Int) -> Unit,
-    //onResetGame: () -> Unit
+
 ) {
     val rotation = remember { Animatable(0f) }
     var isSpinning by remember { mutableStateOf(false) }
     var targetRotation by remember { mutableStateOf(0f) }
     var bottleSet by remember { mutableStateOf(AngleOfBottleSet) }
-    // This offset corrects the bottle image orientation.
-    // Default 0f (no extra correction). Use slider or calibrate to set.
     var bottleAngleOffset by remember { mutableStateOf(0f) }
 
-    // Helper for calibration where user types the observed player
+
     var observedPlayerText by remember { mutableStateOf("") }
 
-    // Utility to compute index given rotation value and current offset
+
     fun computePlayerIndex(rotationValue: Float, offsetDegrees: Float): Int {
         val anglePerPlayer = 360f / playerCount
         val normalizedRotation = (rotationValue % 360 + 360) % 360
@@ -185,7 +183,7 @@ fun GameScreen(
         return (adjustedRotation / anglePerPlayer).toInt() % playerCount
     }
 
-    // Animation & selection
+
     LaunchedEffect(isSpinning) {
         if (isSpinning) {
             rotation.animateTo(
@@ -245,7 +243,7 @@ fun GameScreen(
                 contentDescription = "Bottle",
                 modifier = Modifier
                     .size(80.dp)
-                    .rotate(rotation.value) // animation rotation in degrees
+                    .rotate(rotation.value)
                     .clickable(
                         enabled = !isSpinning,
                         onClick = {
@@ -387,7 +385,6 @@ fun GameScreen(
 
         Spacer(modifier = Modifier.height(18.dp))
 
-        // Calibration card: slider + quick auto-calibrate by typing observed player
         if(bottleSet){
             Card(
                 modifier = Modifier
@@ -437,7 +434,6 @@ fun GameScreen(
                         OutlinedTextField(
                             value = observedPlayerText,
                             onValueChange = { txt ->
-                                // only allow numbers
                                 if (txt.isEmpty() || txt.toIntOrNull() != null) observedPlayerText =
                                     txt
                             },
@@ -451,18 +447,15 @@ fun GameScreen(
                             onClick = {
                                 val observed = observedPlayerText.toIntOrNull()
                                 if (observed != null && observed in 1..playerCount) {
-                                    // Calculate the offset so the bottle points to the center of the observed player's segment
-                                    val anglePerPlayer = 360f / playerCount
+                                   val anglePerPlayer = 360f / playerCount
                                     val normalizedRotation = (rotation.value % 360 + 360) % 360
                                     val targetCenterAngle =
                                         ((observed - 1) * anglePerPlayer + anglePerPlayer / 2f) % 360f
                                     var computedOffset =
                                         (targetCenterAngle - normalizedRotation + 360f) % 360f
-                                    // convert to -180..180 for nicer slider control
-                                    if (computedOffset > 180f) computedOffset -= 360f
+                                   if (computedOffset > 180f) computedOffset -= 360f
                                     bottleAngleOffset = computedOffset
-                                    // update selected player using new offset
-                                    val newSelected =
+                                   val newSelected =
                                         computePlayerIndex(rotation.value, bottleAngleOffset)
                                     onSelectedPlayerChange(newSelected)
                                 }
@@ -530,7 +523,6 @@ fun PlayerWheel(
             val center = Offset(size.width / 2, size.height / 2)
             val anglePerPlayer = 360f / playerCount
 
-            // Draw background with radial gradient
             drawCircle(
                 brush = Brush.radialGradient(
                     colors = listOf(
@@ -544,8 +536,6 @@ fun PlayerWheel(
                 center = center,
                 style = Fill
             )
-
-            // Draw outer glow effect for selected player
             if (playerCount > 0) {
                 val selectedStartAngle = selectedPlayer * anglePerPlayer - 90
                 drawArc(
@@ -558,7 +548,7 @@ fun PlayerWheel(
                 )
             }
 
-            // Draw outer ring with vibrant gradient
+
             drawCircle(
                 brush = Brush.sweepGradient(
                     colors = listOf(
@@ -573,7 +563,7 @@ fun PlayerWheel(
                 style = Stroke(width = strokeWidth.toPx() * 2f)
             )
 
-            // Draw inner decorative circle with subtle gradient
+
             drawCircle(
                 brush = Brush.radialGradient(
                     colors = listOf(
@@ -592,11 +582,11 @@ fun PlayerWheel(
                 val startAngle = i * anglePerPlayer - 90
                 val sweepAngle = anglePerPlayer
 
-                // Create a unique color for each segment using HSL rotation
+
                 val hue = (i * 360f / playerCount) % 360f
                 val segmentBaseColor = Color.hsl(hue, 0.7f, 0.5f)
 
-                // Draw player segments with gradient
+
                 val segmentColor = if (i == selectedPlayer) {
                     Brush.radialGradient(
                         colors = listOf(
@@ -626,7 +616,6 @@ fun PlayerWheel(
                     size = Size(radius * 2, radius * 2)
                 )
 
-                // Draw separator lines with gradient
                 val endX = center.x + radius * cos(Math.toRadians(startAngle.toDouble())).toFloat()
                 val endY = center.y + radius * sin(Math.toRadians(startAngle.toDouble())).toFloat()
 
@@ -644,9 +633,9 @@ fun PlayerWheel(
                     strokeWidth = strokeWidth.toPx() / 1.5f
                 )
 
-                // Highlight selected player with animated effect
+
                 if (i == selectedPlayer) {
-                    // Inner highlight
+
                     drawArc(
                         brush = Brush.radialGradient(
                             colors = listOf(
@@ -663,7 +652,7 @@ fun PlayerWheel(
                         size = Size(radius * 2, radius * 2)
                     )
 
-                    // Outer animated highlight
+
                     drawArc(
                         color = selectedColor,
                         startAngle = startAngle,
@@ -678,13 +667,13 @@ fun PlayerWheel(
                     )
                 }
 
-                // Calculate text position
+
                 val textAngle = startAngle + anglePerPlayer / 2
                 val textRadius = radius * 0.7f
                 val textX = center.x + textRadius * cos(Math.toRadians(textAngle.toDouble())).toFloat()
                 val textY = center.y + textRadius * sin(Math.toRadians(textAngle.toDouble())).toFloat()
 
-                // Draw player number with better styling
+
                 drawIntoCanvas {
                     val playerText = if (playerNames.getOrNull(i) != null) {
                         "${i + 1}\n${playerNames[i].take(8)}"
@@ -709,7 +698,6 @@ fun PlayerWheel(
                         }
                     }
 
-                    // For multiline text
                     if (playerText.contains("\n")) {
                         val lines = playerText.split("\n")
                         var yOffset = textY - (paint.textSize * (lines.size - 1) / 2)
@@ -723,7 +711,6 @@ fun PlayerWheel(
                 }
             }
 
-            // Draw center circle with gradient and shadow effect
             drawCircle(
                 brush = Brush.radialGradient(
                     colors = listOf(
@@ -738,7 +725,7 @@ fun PlayerWheel(
                 style = Fill
             )
 
-            // Draw center ring
+
             drawCircle(
                 color = Color.White,
                 radius = radius * 0.12f,
@@ -746,7 +733,6 @@ fun PlayerWheel(
                 style = Stroke(width = strokeWidth.toPx() / 2)
             )
 
-            // Draw center text with better styling
             drawIntoCanvas {
                 val paint = android.graphics.Paint().apply {
                     color = android.graphics.Color.WHITE
@@ -759,7 +745,6 @@ fun PlayerWheel(
             }
         }
 
-        // Add floating indicator above selected player
         if (playerCount > 0) {
             val anglePerPlayer = 360f / playerCount
             val selectedAngle = selectedPlayer * anglePerPlayer - 90 + anglePerPlayer / 2

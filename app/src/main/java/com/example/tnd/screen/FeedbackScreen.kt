@@ -118,7 +118,7 @@ fun FeedbackScreen(navController: NavHostController) {
                 .fillMaxSize()
                 .padding(innerPadding)
         ) {
-            // Tab Row
+
             TabRow(
                 selectedTabIndex = selectedTab,
                 containerColor = Color(0xFF6A5AE0),
@@ -136,7 +136,7 @@ fun FeedbackScreen(navController: NavHostController) {
                 }
             }
 
-            // Content based on selected tab
+
             when (selectedTab) {
                 0 -> FeedbackContent()
                 1 -> DeveloperContent()
@@ -166,7 +166,7 @@ fun FeedbackContent() {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         item {
-            // Header
+
             Text(
                 text = "How was your experience?",
                 style = MaterialTheme.typography.headlineSmall.copy(
@@ -178,7 +178,7 @@ fun FeedbackContent() {
                 modifier = Modifier.padding(vertical = 24.dp)
             )
 
-            // Rating Section
+
             Card(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -223,8 +223,6 @@ fun FeedbackContent() {
                     )
                 }
             }
-
-            // Comment Section
             Card(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -299,7 +297,6 @@ fun FeedbackContent() {
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // Submit Button
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -328,12 +325,12 @@ fun FeedbackContent() {
                 )
             }
 
-            // Thank You Dialog
+
             if (showThankYouDialog) {
                 FeedbackThankYouDialog(
                     onDismiss = {
                         showThankYouDialog = false
-                        // Reset form
+
                         rating = 0
                         comment = ""
                     }
@@ -360,7 +357,7 @@ fun DeveloperContent() {
             .padding(16.dp)
     ) {
         item {
-            // Developer Profile
+
             Card(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -373,7 +370,6 @@ fun DeveloperContent() {
                     modifier = Modifier.padding(24.dp),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    // Developer Image
                     Box(
                         modifier = Modifier
                             .size(120.dp)
@@ -419,7 +415,6 @@ fun DeveloperContent() {
                 }
             }
 
-            // Contact Information
             Card(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -445,7 +440,7 @@ fun DeveloperContent() {
                         title = "Email",
                         value = "keshavparvat123@gamil.com",
                         onClick = {
-                            // Open email intent
+
                         }
                     )
 
@@ -461,7 +456,6 @@ fun DeveloperContent() {
                 }
             }
 
-            // App Information
             Card(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -496,7 +490,7 @@ fun DeveloperContent() {
                         title = "Privacy Policy",
                         value = "View",
                         onClick = {
-                            // Open privacy policy
+
                         }
                     )
                 }
@@ -504,16 +498,8 @@ fun DeveloperContent() {
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // Footer
-            Text(
-                text = "Made with ❤️ by John Developer",
-                style = MaterialTheme.typography.bodySmall,
-                color = Color(0xFF666666),
-                textAlign = TextAlign.Center,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 16.dp)
-            )
+
+
         }
     }
 }

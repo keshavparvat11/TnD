@@ -42,6 +42,7 @@ fun TruthScreen(navController: NavController) {
         TruthTopic("Random", Icons.Default.Quiz, Color(0xFF9A8C98), "Random"),
         TruthTopic("Deep & Thought-provoking", Icons.Default.Psychology, Color(0xFF6A5ACD), "Deep"),
         TruthTopic("Embarrassing Moments", Icons.Default.SentimentDissatisfied, Color(0xFFFF6B6B), "Embarrassing"),
+        TruthTopic("Hypotheticals", Icons.Default.HelpOutline, Color(0xFF4A90E2), "Hypotheticals"),
         TruthTopic("Favorites", Icons.Default.Star, Color(0xFFFFD166), "Favorites"),
         TruthTopic("Friendship & Relationships", Icons.Default.Favorite, Color(0xFFE84855), "Friendship"),
         TruthTopic("Never Have I Ever", Icons.Default.VisibilityOff, Color(0xFF118AB2), "NeverHaveIEver"),
@@ -76,13 +77,25 @@ fun TruthScreen(navController: NavController) {
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
+            IconButton(
+                onClick = { navController.popBackStack() },
+                modifier = Modifier
+                    .size(48.dp)
+                    .background(Color(0x30FFFFFF), shape = CircleShape)
+            ) {
+                Icon(
+                    imageVector = Icons.Default.ArrowBack,
+                    contentDescription = "Back",
+                    tint = Color.White
+                )
+            }
+
             Text(
                 text = "Truth Topics",
                 style = MaterialTheme.typography.headlineLarge.copy(
                     fontWeight = FontWeight.ExtraBold,
                     color = Color.White
                 ),
-                modifier = Modifier.weight(1f)
             )
 
             IconButton(
@@ -109,7 +122,6 @@ fun TruthScreen(navController: NavController) {
             modifier = Modifier.padding(bottom = 24.dp)
         )
 
-        // Topic selection grid
         LazyVerticalStaggeredGrid(
             columns = StaggeredGridCells.Fixed(2),
             modifier = Modifier.weight(1f),

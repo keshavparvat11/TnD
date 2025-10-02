@@ -26,7 +26,6 @@ fun TnDApp() {
         composable("Feedback") { FeedbackScreen(navController) }
         composable("spin") { PlayerInputScreen(navController) }
 
-        // --- Dares ---
         composable(
             route = "ShowDare/{topic}",
             arguments = listOf(navArgument("topic") { type = NavType.StringType })
@@ -35,7 +34,7 @@ fun TnDApp() {
             ShowDare(navController, topic)
         }
 
-        // --- Spin Bottle / Game ---
+
         composable(
             route = "GameScreen/{numberOfPlayers}",
             arguments = listOf(navArgument("numberOfPlayers") { type = NavType.IntType })
@@ -44,7 +43,7 @@ fun TnDApp() {
             SpinBottleScreen(navController, numberOfPlayers)
         }
 
-        // --- Truth ---
+
         composable(
             route = "ShowTruth/{topic}",
             arguments = listOf(navArgument("topic") { type = NavType.StringType })

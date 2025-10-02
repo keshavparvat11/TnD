@@ -33,14 +33,19 @@ import androidx.navigation.compose.rememberNavController
 import com.example.tnd.model.DareData
 import com.example.tnd.model.TruthData
 import kotlinx.coroutines.delay
+import kotlin.random.Random
 
 @Composable
 fun ShowTruth(navController: NavController, item: String) {
     val dd = TruthData()
     val truthData = dd.getTruth(item)
     val truthList = remember { truthData ?: emptyList() }
+    val truthDataH = dd.getTruthH(item)
     var allTruth by remember { mutableStateOf(false) }
-    var currentTruth by remember { mutableStateOf(truthData?.random() ?: "No Dare Available") }
+    var showHindi by remember { mutableStateOf(false) }
+    var random = Random.nextInt(0, truthData?.size ?: 0)
+    var currentTruth by remember { mutableStateOf(truthData?.get(random) ?: "No Dare Available") }
+    var currentTruthH by remember { mutableStateOf(truthDataH?.get(random) ?: "No Dare Available") }
     var isRefreshing by remember { mutableStateOf(false) }
     var showMenu by remember { mutableStateOf(false) }
     val rotation by animateFloatAsState(
@@ -54,7 +59,9 @@ fun ShowTruth(navController: NavController, item: String) {
     LaunchedEffect(isRefreshing) {
         if (isRefreshing) {
             delay(1000)
-            currentTruth = truthData?.random() ?: "No Dare Available"
+            random = Random.nextInt(0, truthData?.size ?: 0)
+            currentTruth = truthData?.get(random) ?: "No Dare Available"
+            currentTruthH = truthDataH?.get(random) ?: "No Dare Available"
             isRefreshing = false
         }
 
@@ -73,9 +80,8 @@ fun ShowTruth(navController: NavController, item: String) {
                 )
             )
     ) {
-        // Background pattern
         Image(
-            painter = painterResource(id = android.R.drawable.ic_menu_help), // Placeholder, replace with your own pattern
+            painter = painterResource(id = android.R.drawable.ic_menu_help),
             contentDescription = "Background pattern",
             contentScale = ContentScale.FillBounds,
             modifier = Modifier
@@ -90,7 +96,6 @@ fun ShowTruth(navController: NavController, item: String) {
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.SpaceBetween
         ) {
-            // Header
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
@@ -131,7 +136,6 @@ fun ShowTruth(navController: NavController, item: String) {
                 }
             }
 
-            // Dare Card
             Card(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -164,10 +168,9 @@ fun ShowTruth(navController: NavController, item: String) {
                             horizontalAlignment = Alignment.CenterHorizontally,
                             verticalArrangement = Arrangement.Center
                         ) {
-                            var i = 1
                             items(truthList) { truth ->
                                 Text(
-                                    text = "$i. $truth",
+                                    text =truth,
                                     style = MaterialTheme.typography.bodyLarge.copy(
                                         fontWeight = FontWeight.SemiBold,
                                         color = Color.White,
@@ -178,7 +181,6 @@ fun ShowTruth(navController: NavController, item: String) {
                                 )
 
                                 Spacer(modifier = Modifier.height(15.dp))
-                                i++
                             }
                         }
 
@@ -205,6 +207,19 @@ fun ShowTruth(navController: NavController, item: String) {
                             )
 
                             Spacer(modifier = Modifier.height(24.dp))
+                            if (showHindi) {
+                                Text(
+                                    text = currentTruthH,
+                                    style = MaterialTheme.typography.headlineSmall.copy(
+                                        fontWeight = FontWeight.Bold,
+                                        color = Color.White,
+                                        textAlign = TextAlign.Center,
+                                        lineHeight = 28.sp
+                                    ),
+                                    modifier = Modifier.padding(16.dp)
+                                )
+                                Spacer(modifier = Modifier.height(24.dp))
+                            }
 
                             Text(
                                 text = "Category: $item",
@@ -307,7 +322,8 @@ fun ShowTruth(navController: NavController, item: String) {
                                 textAlign = TextAlign.Center,
                                 lineHeight = 20.sp
                             ),
-                            modifier = Modifier.padding(4.dp).clickable( onClick = { allTruth = !allTruth })
+                            modifier = Modifier.padding(4.dp)
+                                .clickable(onClick = { allTruth = !allTruth })
                         )
                         IconButton(
                             onClick = { allTruth = !allTruth },
@@ -316,6 +332,29 @@ fun ShowTruth(navController: NavController, item: String) {
                         {
                             Icon(
                                 imageVector = if (allTruth) Icons.Default.VisibilityOff else Icons.Default.Visibility,
+                                contentDescription = "More options",
+                                tint = Color.White
+                            )
+                        }
+                    }
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Text(
+                            text = "Show Hindi",
+                            style = MaterialTheme.typography.bodyLarge.copy(
+                                fontWeight = FontWeight.SemiBold,
+                                color = Color.White,
+                                textAlign = TextAlign.Center,
+                                lineHeight = 20.sp
+                            ),
+                            modifier = Modifier.padding(4.dp).clickable( onClick = { showHindi = !showHindi })
+                        )
+                        IconButton(
+                            onClick = { showHindi = !showHindi },
+
+                            )
+                        {
+                            Icon(
+                                imageVector = if (showHindi) Icons.Default.VisibilityOff else Icons.Default.Visibility,
                                 contentDescription = "More options",
                                 tint = Color.White
                             )

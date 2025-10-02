@@ -57,7 +57,6 @@ fun PlayerInputScreen(navController: NavController) {
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        // --- Header ---
         Box(
             modifier = Modifier
                 .size(90.dp)
@@ -98,7 +97,6 @@ fun PlayerInputScreen(navController: NavController) {
 
         Spacer(Modifier.height(28.dp))
 
-        // --- Card with input ---
         Card(
             modifier = Modifier
                 .fillMaxWidth()

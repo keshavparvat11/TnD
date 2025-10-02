@@ -27,7 +27,7 @@ import androidx.navigation.NavController
 
 @Composable
 fun HomeScreen(navController: NavController) {
-    // Use Material theme colors
+
     val spinColor = MaterialTheme.colorScheme.primaryContainer
     val truthColor = MaterialTheme.colorScheme.secondaryContainer
     val dareColor = MaterialTheme.colorScheme.tertiaryContainer
@@ -49,7 +49,6 @@ fun HomeScreen(navController: NavController) {
                 textAlign = TextAlign.Center
             )
 
-            // Buttons arranged in a grid-like style
             Row(
                 horizontalArrangement = Arrangement.spacedBy(16.dp),
                 verticalAlignment = Alignment.CenterVertically

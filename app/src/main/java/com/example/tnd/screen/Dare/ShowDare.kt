@@ -32,16 +32,21 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.tnd.model.DareData
 import kotlinx.coroutines.delay
+import kotlin.random.Random
 
 @Composable
 fun ShowDare(navController: NavController, item: String) {
     val dd = DareData()
     val dareData = dd.getDare(item)
+    val dareDataH = dd.getDareH(item)
     val dareList = remember { dareData ?: emptyList() }
     var allDare by remember { mutableStateOf(false) }
-    var currentDare by remember { mutableStateOf(dareData?.random() ?: "No Dare Available") }
-    var isRefreshing by remember { mutableStateOf(false) }
+    var random = Random.nextInt(0, dareData?.size ?: 0)
+    var currentDare by remember { mutableStateOf(dareData?.get(random) ?: "No Dare Available") }
+    var currentDareH by remember { mutableStateOf(dareDataH?.get(random) ?: "No Dare Available") }
+    var isRefreshing by remember { mutableStateOf(true) }
     var showMenu by remember { mutableStateOf(false) }
+    var showHindi by remember { mutableStateOf(false) }
     val rotation by animateFloatAsState(
         targetValue = if (isRefreshing) 360f else 0f,
         animationSpec = androidx.compose.animation.core.tween(durationMillis = 1000)
@@ -53,7 +58,9 @@ fun ShowDare(navController: NavController, item: String) {
     LaunchedEffect(isRefreshing) {
         if (isRefreshing) {
             delay(1000)
-            currentDare = dareData?.random() ?: "No Dare Available"
+            random = Random.nextInt(0, dareData?.size ?: 0)
+            currentDare = dareData?.get(random) ?: "No Dare Available"
+            currentDareH = dareDataH?.get(random) ?: "No Dare Available"
             isRefreshing = false
         }
 
@@ -89,7 +96,6 @@ fun ShowDare(navController: NavController, item: String) {
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.SpaceBetween
         ) {
-            // Header
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
@@ -130,7 +136,6 @@ fun ShowDare(navController: NavController, item: String) {
                 }
             }
 
-            // Dare Card
             Card(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -204,6 +209,20 @@ fun ShowDare(navController: NavController, item: String) {
                             )
 
                             Spacer(modifier = Modifier.height(24.dp))
+                            if(showHindi){
+                                Text(
+                                    text = currentDareH,
+                                    style = MaterialTheme.typography.headlineSmall.copy(
+                                        fontWeight = FontWeight.Bold,
+                                        color = Color.White,
+                                        textAlign = TextAlign.Center,
+                                        lineHeight = 28.sp
+                                    ),
+                                    modifier = Modifier.padding(16.dp)
+                                )
+
+                                Spacer(modifier = Modifier.height(24.dp))
+                            }
 
                             Text(
                                 text = "Category: $item",
@@ -216,8 +235,6 @@ fun ShowDare(navController: NavController, item: String) {
                     }
                 }
             }
-
-            // Action Buttons
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -250,7 +267,7 @@ fun ShowDare(navController: NavController, item: String) {
 
                 Button(
                     onClick = { navController.navigate("Home"){
-                        popUpTo(0) { inclusive = true }    // clears the whole stack
+                        popUpTo(0) { inclusive = true }
                         launchSingleTop = true
                     } },
                     modifier = Modifier
@@ -309,6 +326,29 @@ fun ShowDare(navController: NavController, item: String) {
                         {
                             Icon(
                                 imageVector = if (allDare) Icons.Default.VisibilityOff else Icons.Default.Visibility,
+                                contentDescription = "More options",
+                                tint = Color.White
+                            )
+                        }
+                    }
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Text(
+                            text = "ShoshowHindi",
+                            style = MaterialTheme.typography.bodyLarge.copy(
+                                fontWeight = FontWeight.SemiBold,
+                                color = Color.White,
+                                textAlign = TextAlign.Center,
+                                lineHeight = 20.sp
+                            ),
+                            modifier = Modifier.padding(4.dp).clickable( onClick = { showHindi = !showHindi })
+                        )
+                        IconButton(
+                            onClick = { showHindi = !showHindi },
+
+                            )
+                        {
+                            Icon(
+                                imageVector = if (showHindi) Icons.Default.VisibilityOff else Icons.Default.Visibility,
                                 contentDescription = "More options",
                                 tint = Color.White
                             )

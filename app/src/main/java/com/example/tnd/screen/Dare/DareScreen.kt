@@ -72,23 +72,35 @@ fun DareScreen(navController: NavController) {
             )
             .padding(16.dp)
     ) {
-        // Header
+
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
+            IconButton(
+                onClick = { navController.popBackStack() },
+                modifier = Modifier
+                    .size(48.dp)
+                    .background(Color(0x30FFFFFF), shape = CircleShape)
+            ) {
+                Icon(
+                    imageVector = Icons.Default.ArrowBack,
+                    contentDescription = "Back",
+                    tint = Color.White
+                )
+            }
+
             Text(
                 text = "Dare Challenges",
                 style = MaterialTheme.typography.headlineLarge.copy(
                     fontWeight = FontWeight.ExtraBold,
                     color = Color.White
                 ),
-                modifier = Modifier.weight(1f)
             )
 
             IconButton(
-                onClick = { showMenu=!showMenu },
+                onClick = { showMenu = !showMenu },
                 modifier = Modifier
                     .size(48.dp)
                     .background(Color(0x30FFFFFF), shape = CircleShape)
@@ -111,7 +123,6 @@ fun DareScreen(navController: NavController) {
             modifier = Modifier.padding(bottom = 24.dp)
         )
 
-        // Topic selection grid
         LazyVerticalStaggeredGrid(
             columns = StaggeredGridCells.Fixed(2),
             modifier = Modifier.weight(1f),
